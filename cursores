@@ -1,0 +1,22 @@
+DELIMITER //
+CREATE PROCEDURE procesar_clientes()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE cliente_id INT;
+    DECLARE cliente_nombre VARCHAR(255);
+    DECLARE cliente_email VARCHAR(255);
+    DECLARE cur CURSOR FOR SELECT id_cliente, nombre, email FROM clientes;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO cliente_id, cliente_nombre, cliente_email;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        -- Procesar la fila (puedes realizar operaciones aquí)
+        -- Ejemplo de operación: SELECT cliente_nombre;
+    END LOOP;
+    CLOSE cur;
+END //
+DELIMITER ;
